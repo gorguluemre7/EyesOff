@@ -118,3 +118,6 @@ InitTestScene*.unity*
 
 # Case dokümanı (şirkete ait, repoya girmiyor)
 eyes-off-case.docx
+
+# Local development notes
+Docs/
