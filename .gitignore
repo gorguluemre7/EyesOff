@@ -112,3 +112,9 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Rider
+.idea/
+
+# Case dokümanı (şirkete ait, repoya girmiyor)
+eyes-off-case.docx
