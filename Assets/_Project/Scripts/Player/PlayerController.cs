@@ -84,11 +84,20 @@ namespace EyesOff.Player
 
         private void Update()
         {
-            if (!IsSpawned || !IsOwner)
+            if (!IsSpawned)
                 return;
 
-            Look();
-            Move();
+            if (IsOwner)
+            {
+                Look();
+                Move();
+            }
+            else
+            {
+                // Remote players: apply the replicated pitch so their aim rig (head, torso, gun) follows it.
+                Quaternion target = Quaternion.Euler(LookPitch.Value, 0f, 0f);
+                cameraPivot.localRotation = Quaternion.Slerp(cameraPivot.localRotation, target, 15f * Time.deltaTime);
+            }
         }
 
         private void Look()
