@@ -1207,7 +1207,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   projectilePrefab: {fileID: 5955468344038668100, guid: 0f795fc8e1df72948964cf6d2805353d, type: 3}
   muzzle: {fileID: 3967433868086570807}
-  aim: {fileID: 670116581277284227}
+  aim: {fileID: 4661409660492930683}
+  maxAimDistance: 100
   cooldown: 0.4
 --- !u!114 &3574096158769492487
 MonoBehaviour:

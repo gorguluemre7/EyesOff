@@ -13,8 +13,9 @@ namespace EyesOff.Weapons
         [SerializeField] private Projectile projectilePrefab;
         [Tooltip("Where the bullet appears (tip of the gun barrel).")]
         [SerializeField] private Transform muzzle;
-        [Tooltip("Shoot along this transform's forward (the camera pivot), so bullets go where we look.")]
+        [Tooltip("The player camera. Bullets fly from the muzzle to whatever is under the screen center (crosshair).")]
         [SerializeField] private Transform aim;
+        [SerializeField] private float maxAimDistance = 100f;
         [SerializeField] private float cooldown = 0.4f;
 
         /// <summary>Server-only: raised with the shooter's client id. Used by the phase flow (Panic Time).</summary>
@@ -47,8 +48,32 @@ namespace EyesOff.Weapons
             if (_attackAction.WasPressedThisFrame() && Time.time >= _nextShotTime)
             {
                 _nextShotTime = Time.time + cooldown;
-                ShootRpc(muzzle.position, aim.forward);
+                Vector3 direction = (GetAimPoint() - muzzle.position).normalized;
+                ShootRpc(muzzle.position, direction);
             }
+        }
+
+        /// <summary>
+        /// The point under the crosshair: the first thing the camera's center ray hits (skipping our own body).
+        /// The muzzle sits below and to the right of the camera, so shooting along the camera's forward
+        /// from the muzzle would land off the crosshair.
+        /// </summary>
+        private Vector3 GetAimPoint()
+        {
+            Vector3 point = aim.position + aim.forward * maxAimDistance;
+            float closest = maxAimDistance;
+
+            foreach (RaycastHit hit in Physics.RaycastAll(aim.position, aim.forward, maxAimDistance,
+                         Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+            {
+                if (hit.distance < closest && !hit.transform.IsChildOf(transform))
+                {
+                    closest = hit.distance;
+                    point = hit.point;
+                }
+            }
+
+            return point;
         }
 
         [Rpc(SendTo.Server)]
