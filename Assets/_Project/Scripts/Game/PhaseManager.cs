@@ -129,7 +129,11 @@ namespace EyesOff.Game
             GamePhase phase = Phase.Value;
             bool frozenShooter = phase == GamePhase.Panic && PanicShooterId.Value == NetworkManager.LocalClientId;
 
-            localPlayer.GetComponent<PlayerController>().MovementLocked = frozenShooter || phase == GamePhase.Finished;
+            bool finished = phase == GamePhase.Finished;
+
+            var controller = localPlayer.GetComponent<PlayerController>();
+            controller.MovementLocked = frozenShooter || finished;
+            controller.LookLocked = finished;
             localPlayer.GetComponent<WeaponShooter>().CanShoot = phase == GamePhase.Dark;
         }
     }

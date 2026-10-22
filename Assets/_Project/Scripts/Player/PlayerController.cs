@@ -33,6 +33,9 @@ namespace EyesOff.Player
         /// <summary>When true the player can still look around but cannot move (Panic Time).</summary>
         public bool MovementLocked { get; set; }
 
+        /// <summary>When true mouse look is ignored too (match over, result screen open).</summary>
+        public bool LookLocked { get; set; }
+
         private CharacterController _characterController;
         private InputAction _moveAction;
         private InputAction _lookAction;
@@ -102,6 +105,9 @@ namespace EyesOff.Player
 
         private void Look()
         {
+            if (LookLocked)
+                return;
+
             Vector2 delta = _lookAction.ReadValue<Vector2>() * lookSensitivity;
 
             transform.Rotate(0f, delta.x, 0f);  // yaw turns the whole body
