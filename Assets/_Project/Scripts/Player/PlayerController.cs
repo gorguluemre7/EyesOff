@@ -30,10 +30,10 @@ namespace EyesOff.Player
         public readonly NetworkVariable<float> LookPitch =
             new(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-        /// <summary>When true the player can still look around but cannot move (Panic Time).</summary>
+        /// <summary>When true the player cannot move (frozen shooter in Panic Time, match over).</summary>
         public bool MovementLocked { get; set; }
 
-        /// <summary>When true mouse look is ignored too (match over, result screen open).</summary>
+        /// <summary>When true mouse look is ignored (frozen shooter in Panic Time, match over).</summary>
         public bool LookLocked { get; set; }
 
         private CharacterController _characterController;

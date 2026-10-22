@@ -133,7 +133,7 @@ namespace EyesOff.Game
 
             var controller = localPlayer.GetComponent<PlayerController>();
             controller.MovementLocked = frozenShooter || finished;
-            controller.LookLocked = finished;
+            controller.LookLocked =frozenShooter || finished;
             localPlayer.GetComponent<WeaponShooter>().CanShoot = phase == GamePhase.Dark;
         }
     }
